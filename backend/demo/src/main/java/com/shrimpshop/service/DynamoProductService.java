@@ -24,6 +24,23 @@ public class DynamoProductService {
         item.put("name", AttributeValue.fromS(product.getName()));
         item.put("price", AttributeValue.fromN(String.valueOf(product.getPrice())));
 
+        //Corrected: add logic for optional attributes map
+        if (product.getAttributes() != null) {
+            Map<String, AttributeValue> optionalMap = new HashMap<>();
+            for (Map.Entry<String, String> entry : product.getAttributes().entrySet()) {
+                optionalMap.put(entry.getKey(), AttributeValue.fromS(entry.getValue()));
+            }
+            item.put("attributes", AttributeValue.fromM(optionalMap));
+        }
+
+        if (product.getImageUrls() != null) {
+            List<AttributeValue> images = product.getImageUrls().stream()
+                .map(AttributeValue::fromS)
+                .toList();
+            
+            item.put("imageUrls", AttributeValue.fromL(images));
+        }
+
         PutItemRequest request = PutItemRequest.builder()
                 .tableName(tableName)
                 .item(item)
@@ -46,6 +63,26 @@ public class DynamoProductService {
             p.setType(item.get("type").s());
             p.setName(item.get("name").s());
             p.setPrice(Double.parseDouble(item.get("price").n()));
+
+            //Corrected: Added logic for returning attributes list
+            if (item.containsKey("attributes")) {
+                Map<String, AttributeValue> rawMap = item.get("attributes").m();
+                Map<String, String> optional = new HashMap<>();
+                for (Map.Entry<String, AttributeValue> entry : rawMap.entrySet()) {
+                    optional.put(entry.getKey(), entry.getValue().s());
+                }
+                p.setAttributes(optional);
+}
+
+            
+            if (item.containsKey("imageUrls")) {
+                List<AttributeValue> imageList = item.get("imageUrls").l();
+                List<String> urls = imageList.stream()
+                    .map(AttributeValue::s)
+                    .toList();
+                p.setImageUrls(urls);
+            }
+
             products.add(p);
         }
         return products;

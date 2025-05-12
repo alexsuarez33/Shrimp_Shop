@@ -2,15 +2,17 @@ package com.shrimpshop.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 public class Product {
     private String id;           // Unique product ID
     private String type;         // e.g., "shrimp", "plant", "tank"
     private String name;         // Display name
     private double price;        // Unit price
+    private List<String> imageUrls; //Images
 
     // Optional: flexible attributes for product-specific data
-    private Map<String, Object> attributes = new HashMap<>();
+    private Map<String, String> attributes = new HashMap<>();
 
     // Constructors
     public Product() {}
@@ -35,6 +37,9 @@ public class Product {
     public double getPrice() { return price; }
     public void setPrice(double price) { this.price = price; }
 
-    public Map<String, Object> getAttributes() { return attributes; }
-    public void setAttributes(Map<String, Object> attributes) { this.attributes = attributes; }
+    public Map<String, String> getAttributes() { return attributes; }
+    public void setAttributes(Map<String, String> attributes) { this.attributes = attributes; }
+
+    public List<String> getImageUrls() { return imageUrls; }
+    public void setImageUrls(List<String> imageUrls) { this.imageUrls = imageUrls; }
 }
