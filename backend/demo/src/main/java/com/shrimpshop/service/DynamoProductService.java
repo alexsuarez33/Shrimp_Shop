@@ -75,4 +75,18 @@ public class DynamoProductService {
         return Integer.parseInt(updatedAttributes.get("currentValue").n());
     }
 
+    public void updateProductPrice(String id, double newPrice) {
+        Map<String, AttributeValue> key = Map.of("id", AttributeValue.fromS(id));
+    
+        UpdateItemRequest request = UpdateItemRequest.builder()
+            .tableName(tableName)
+            .key(key)
+            .updateExpression("SET price = :p")
+            .expressionAttributeValues(Map.of(":p", AttributeValue.fromN(String.valueOf(newPrice))))
+            .build();
+    
+        dynamoDb.updateItem(request);
+    }
+    
+
 }

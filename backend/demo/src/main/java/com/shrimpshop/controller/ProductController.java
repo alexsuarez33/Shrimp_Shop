@@ -3,11 +3,12 @@ package com.shrimpshop.controller;
 import com.shrimpshop.model.Product;
 import org.springframework.web.bind.annotation.*;
 import com.shrimpshop.service.DynamoProductService;
-import java.util.UUID;
+import com.shrimpshop.dto.UpdatePriceRequest;
 
 import java.util.List;
 
 @RestController
+
 @RequestMapping("/api/products")
 public class ProductController {
     private final DynamoProductService productService;
@@ -31,5 +32,10 @@ public class ProductController {
 
         productService.saveProduct(product);
         return product;
+    }
+
+    @PutMapping("/{id}/price")
+    public void updateProductPrice(@PathVariable String id, @RequestBody UpdatePriceRequest request){
+        productService.updateProductPrice(id, request.getPrice());
     }
 }
