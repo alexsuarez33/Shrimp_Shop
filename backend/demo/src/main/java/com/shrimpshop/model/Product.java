@@ -9,6 +9,7 @@ public class Product {
     private String type;         // e.g., "shrimp", "plant", "tank"
     private String name;         // Display name
     private double price;        // Unit price
+    private int stock;           // Quantity of products
     private List<String> imageUrls; //Images
 
     // Optional: flexible attributes for product-specific data
@@ -17,11 +18,12 @@ public class Product {
     // Constructors
     public Product() {}
 
-    public Product(String id, String type, String name, double price) {
+    public Product(String id, String type, String name, double price, int stock) {
         this.id = id;
         this.type = type;
         this.name = name;
         this.price = price;
+        this.stock = stock;
     }
 
     // Getters and setters
@@ -36,6 +38,9 @@ public class Product {
 
     public double getPrice() { return price; }
     public void setPrice(double price) { this.price = price; }
+
+    public int getStock() {return stock;}
+    public void setStock(int stock){ this.stock = stock;}
 
     public Map<String, String> getAttributes() { return attributes; }
     public void setAttributes(Map<String, String> attributes) { this.attributes = attributes; }

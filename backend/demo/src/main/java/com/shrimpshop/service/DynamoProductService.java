@@ -23,6 +23,7 @@ public class DynamoProductService {
         item.put("type", AttributeValue.fromS(product.getType()));
         item.put("name", AttributeValue.fromS(product.getName()));
         item.put("price", AttributeValue.fromN(String.valueOf(product.getPrice())));
+        item.put("stock", AttributeValue.fromN(String.valueOf(product.getStock())));
 
         //Corrected: add logic for optional attributes map
         if (product.getAttributes() != null) {
@@ -63,6 +64,7 @@ public class DynamoProductService {
             p.setType(item.get("type").s());
             p.setName(item.get("name").s());
             p.setPrice(Double.parseDouble(item.get("price").n()));
+            p.setStock(Integer.parseInt(item.get("stock").n()));
 
             //Corrected: Added logic for returning attributes list
             if (item.containsKey("attributes")) {
